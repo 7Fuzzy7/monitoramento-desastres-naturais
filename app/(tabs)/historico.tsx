@@ -1,15 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { View, Text, StyleSheet, ScrollView, Button, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import * as MailComposer from 'expo-mail-composer';
-import { useTheme } from '@react-navigation/native';
+import { useTheme, useFocusEffect } from '@react-navigation/native';
 
 type Leitura = {
+  id: string;
   data: string;
   umidade: string;
   inclinacao: string;
+  cidade?: string;
+  clima?: any;
 };
 
 export default function Historico() {
@@ -22,6 +25,20 @@ export default function Historico() {
       setLeituras(JSON.parse(dados));
     }
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      carregarLeituras();
+    }, [])
+  );
+
+  useEffect(() => {
+    const intervalo = setInterval(() => {
+      carregarLeituras();
+    }, 10000); // atualiza a cada 10 segundos
+
+    return () => clearInterval(intervalo);
+  }, []);
 
   const resetarLeituras = async () => {
     await AsyncStorage.removeItem('leituras');
@@ -39,10 +56,9 @@ export default function Historico() {
     const leituras: Leitura[] = JSON.parse(dados);
 
     const texto = leituras
-      .map(
-        (leitura: Leitura) =>
-          `📅 ${leitura.data}\n💧 Umidade: ${leitura.umidade}%\n📐 Inclinação: ${leitura.inclinacao}°\n`
-      )
+      .map((leitura) => {
+        return `📅 ${leitura.data}\n🏙️ Cidade: ${leitura.cidade || 'N/A'}\n💧 Umidade: ${leitura.umidade}%\n📐 Inclinação: ${leitura.inclinacao}°\n🌡 Temp: ${leitura.clima?.main?.temp || 'N/A'} °C\n🥵 Sensação: ${leitura.clima?.main?.feels_like || 'N/A'} °C\n🧭 Pressão: ${leitura.clima?.main?.pressure || 'N/A'} hPa\n💨 Vento: ${leitura.clima?.wind?.speed || 'N/A'} m/s\n🌫 Visibilidade: ${leitura.clima?.visibility || 'N/A'} m\n🌤 Condição: ${leitura.clima?.weather?.[0]?.description || 'N/A'}\n`;
+      })
       .join('\n');
 
     const fileUri = FileSystem.documentDirectory + 'leituras.txt';
@@ -65,10 +81,6 @@ export default function Historico() {
     }
   };
 
-  useEffect(() => {
-    carregarLeituras();
-  }, []);
-
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <Text style={[styles.title, { color: colors.text }]}>Histórico de Leituras</Text>
@@ -76,11 +88,22 @@ export default function Historico() {
         <Text style={[styles.empty, { color: colors.text }]}>Nenhum dado registrado.</Text>
       ) : (
         <ScrollView style={styles.scroll}>
-          {leituras.map((leitura: Leitura, index) => (
-            <View key={index} style={styles.card}>
+          {leituras.map((leitura, index) => (
+            <View key={leitura.id || index.toString()} style={styles.card}>
               <Text style={styles.info}>📅 {leitura.data}</Text>
+              <Text style={styles.info}>🏙️ Cidade: {leitura.cidade || 'Desconhecida'}</Text>
               <Text style={styles.info}>💧 Umidade: {leitura.umidade}%</Text>
               <Text style={styles.info}>📐 Inclinação: {leitura.inclinacao}°</Text>
+              {leitura.clima && (
+                <>
+                  <Text style={styles.info}>🌡 Temp: {leitura.clima.main.temp} °C</Text>
+                  <Text style={styles.info}>🥵 Sensação: {leitura.clima.main.feels_like} °C</Text>
+                  <Text style={styles.info}>🧭 Pressão: {leitura.clima.main.pressure} hPa</Text>
+                  <Text style={styles.info}>💨 Vento: {leitura.clima.wind.speed} m/s</Text>
+                  <Text style={styles.info}>🌫 Visibilidade: {leitura.clima.visibility} m</Text>
+                  <Text style={styles.info}>🌤 Condição: {leitura.clima.weather[0].description}</Text>
+                </>
+              )}
             </View>
           ))}
         </ScrollView>
@@ -115,6 +138,7 @@ const styles = StyleSheet.create({
   },
   info: {
     fontSize: 16,
+    marginBottom: 4,
   },
   empty: {
     textAlign: 'center',

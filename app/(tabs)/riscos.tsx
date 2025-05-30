@@ -7,6 +7,7 @@ export default function Riscos() {
   const { colors } = useTheme();
   const [risco, setRisco] = useState<string | null>(null);
   const [cor, setCor] = useState('#ccc');
+  const [detalhes, setDetalhes] = useState<any>(null);
 
   useEffect(() => {
     const calcularRisco = async () => {
@@ -16,8 +17,11 @@ export default function Riscos() {
         const ultima = leituras[leituras.length - 1];
         const umidade = parseFloat(ultima.umidade);
         const inclinacao = parseFloat(ultima.inclinacao);
+        const vento = parseFloat(ultima.clima?.wind?.speed || 0);
 
-        if (umidade > 80 && inclinacao > 30) {
+        setDetalhes(ultima.clima);
+
+        if (umidade > 80 && inclinacao > 30 && vento > 5) {
           setRisco('ALTO');
           setCor('#ff4d4d');
         } else if (umidade > 60 && inclinacao > 20) {
@@ -38,8 +42,15 @@ export default function Riscos() {
 
   return (
     <View style={[styles.container, { backgroundColor: cor }]}>
-      <Text style={[styles.title, { color: colors.card }]}>Nível de Risco</Text>
-      <Text style={[styles.risk, { color: colors.card }]}>{risco}</Text>
+      <Text style={[styles.title, { color: '#fff' }]}>Nível de Risco</Text>
+      <Text style={[styles.risk, { color: '#fff' }]}>{risco}</Text>
+      {detalhes && (
+        <View style={styles.details}>
+          <Text style={[styles.info, { color: '#fff' }]}>💨 Vento: {detalhes.wind?.speed} m/s</Text>
+          <Text style={[styles.info, { color: '#fff' }]}>🌡 Temp: {detalhes.main?.temp} °C</Text>
+          <Text style={[styles.info, { color: '#fff' }]}>🌤 Condição: {detalhes.weather?.[0]?.description}</Text>
+        </View>
+      )}
     </View>
   );
 }
@@ -49,6 +60,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 24,
   },
   title: {
     fontSize: 22,
@@ -58,5 +70,13 @@ const styles = StyleSheet.create({
   risk: {
     fontSize: 40,
     fontWeight: 'bold',
+  },
+  details: {
+    marginTop: 24,
+    alignItems: 'center',
+  },
+  info: {
+    fontSize: 16,
+    marginBottom: 6,
   },
 });

@@ -8,6 +8,8 @@ type Leitura = {
   data: string;
   umidade: string;
   inclinacao: string;
+  cidade?: string;
+  clima?: any;
 };
 
 export default function Mitigacao() {
@@ -24,8 +26,9 @@ export default function Mitigacao() {
         const ultima = leituras[leituras.length - 1];
         const umidade = parseFloat(ultima.umidade);
         const inclinacao = parseFloat(ultima.inclinacao);
+        const vento = parseFloat(ultima.clima?.wind?.speed || 0);
 
-        if (umidade > 80 && inclinacao > 30) {
+        if (umidade > 80 && inclinacao > 30 && vento > 5) {
           setAcoes([
             'Evacuação imediata da área de risco',
             'Acionamento de sirenes de emergência',
