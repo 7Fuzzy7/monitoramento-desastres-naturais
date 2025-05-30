@@ -14,6 +14,14 @@ Escaneie com o aplicativo **Expo Go**:
   <img src="qrcode_expo.png" alt="QR Code do App" width="200" />
 </p>
 
+### 🔗 Links Diretos de Atualização
+
+- **Update details page URL:**  
+  [https://expo.dev/preview/update?message=Atualiza%C3%A7%C3%A3o%20das%20telas%20de%20risco%20e%20mitiga%C3%A7%C3%A3o&updateRuntimeVersion=1.0.0&createdAt=2025-05-30T22%3A42%3A39.179Z&slug=exp&projectId=3a5317b1-f8a8-4bf1-b6c1-8cb0d97d9876&group=d7cb0337-a6fd-476e-b748-349c685ed619](https://expo.dev/preview/update?message=Atualiza%C3%A7%C3%A3o%20das%20telas%20de%20risco%20e%20mitiga%C3%A7%C3%A3o&updateRuntimeVersion=1.0.0&createdAt=2025-05-30T22%3A42%3A39.179Z&slug=exp&projectId=3a5317b1-f8a8-4bf1-b6c1-8cb0d97d9876&group=d7cb0337-a6fd-476e-b748-349c685ed619)
+
+- **Update deep link URL:**  
+  `exp+://expo-development-client/?url=https://u.expo.dev/3a5317b1-f8a8-4bf1-b6c1-8cb0d97d9876/group/d7cb0337-a6fd-476e-b748-349c685ed619`
+
 ---
 
 ## 🌍 Funcionalidades
