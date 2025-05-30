@@ -2,8 +2,16 @@ import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from '@react-navigation/native';
+
+type Leitura = {
+  data: string;
+  umidade: string;
+  inclinacao: string;
+};
 
 export default function Mitigacao() {
+  const { colors } = useTheme();
   const [acoes, setAcoes] = useState<string[]>([]);
   const [icone, setIcone] = useState<'checkmark-circle' | 'warning' | 'alert-circle'>('checkmark-circle');
   const [cor, setCor] = useState('#4caf50');
@@ -12,7 +20,7 @@ export default function Mitigacao() {
     const definirAcoes = async () => {
       const dados = await AsyncStorage.getItem('leituras');
       if (dados) {
-        const leituras = JSON.parse(dados);
+        const leituras: Leitura[] = JSON.parse(dados);
         const ultima = leituras[leituras.length - 1];
         const umidade = parseFloat(ultima.umidade);
         const inclinacao = parseFloat(ultima.inclinacao);
@@ -25,7 +33,7 @@ export default function Mitigacao() {
             'Notificação à Defesa Civil',
           ]);
           setIcone('alert-circle');
-          setCor('#f44336'); // vermelho
+          setCor('#f44336');
         } else if (umidade > 60 && inclinacao > 20) {
           setAcoes([
             'Monitoramento contínuo da área',
@@ -33,7 +41,7 @@ export default function Mitigacao() {
             'Inspeção técnica do terreno',
           ]);
           setIcone('warning');
-          setCor('#ffc107'); // amarelo
+          setCor('#ffc107');
         } else {
           setAcoes([
             'Manutenção preventiva das encostas',
@@ -41,7 +49,7 @@ export default function Mitigacao() {
             'Revisão periódica de drenagem e solo',
           ]);
           setIcone('checkmark-circle');
-          setCor('#4caf50'); // verde
+          setCor('#4caf50');
         }
       }
     };
@@ -50,13 +58,13 @@ export default function Mitigacao() {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.header}>
         <Ionicons name={icone} size={60} color={cor} />
-        <Text style={styles.title}>Ações de Mitigação</Text>
+        <Text style={[styles.title, { color: colors.text }]}>Ações de Mitigação</Text>
       </View>
       {acoes.map((acao, index) => (
-        <Text key={index} style={styles.item}>• {acao}</Text>
+        <Text key={index} style={[styles.item, { color: colors.text }]}>• {acao}</Text>
       ))}
     </View>
   );

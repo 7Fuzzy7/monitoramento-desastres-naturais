@@ -1,9 +1,10 @@
+import { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, Button, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
-import * as MailComposer from 'expo-mail-composer';
 import * as Sharing from 'expo-sharing';
-import { useEffect, useState } from 'react';
-import { Alert, Button, ScrollView, StyleSheet, Text, View } from 'react-native';
+import * as MailComposer from 'expo-mail-composer';
+import { useTheme } from '@react-navigation/native';
 
 type Leitura = {
   data: string;
@@ -11,8 +12,8 @@ type Leitura = {
   inclinacao: string;
 };
 
-
 export default function Historico() {
+  const { colors } = useTheme();
   const [leituras, setLeituras] = useState<Leitura[]>([]);
 
   const carregarLeituras = async () => {
@@ -35,7 +36,7 @@ export default function Historico() {
       return;
     }
 
-    const leituras = JSON.parse(dados);
+    const leituras: Leitura[] = JSON.parse(dados);
 
     const texto = leituras
       .map(
@@ -69,10 +70,10 @@ export default function Historico() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Histórico de Leituras</Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[styles.title, { color: colors.text }]}>Histórico de Leituras</Text>
       {leituras.length === 0 ? (
-        <Text style={styles.empty}>Nenhum dado registrado.</Text>
+        <Text style={[styles.empty, { color: colors.text }]}>Nenhum dado registrado.</Text>
       ) : (
         <ScrollView style={styles.scroll}>
           {leituras.map((leitura: Leitura, index) => (

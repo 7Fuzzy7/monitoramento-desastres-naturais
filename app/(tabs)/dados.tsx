@@ -1,8 +1,22 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
-import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ScrollView
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTheme } from '@react-navigation/native';
 
 export default function Dados() {
+  const { colors } = useTheme();
   const [umidade, setUmidade] = useState('');
   const [inclinacao, setInclinacao] = useState('');
 
@@ -34,43 +48,52 @@ export default function Dados() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Inserir Dados Ambientais</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Umidade do solo (%)"
-        value={umidade}
-        onChangeText={setUmidade}
-        keyboardType="numeric"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Inclinação do terreno (°)"
-        value={inclinacao}
-        onChangeText={setInclinacao}
-        keyboardType="numeric"
-      />
-      <Button title="Salvar Dados" onPress={salvarDados} />
-    </View>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView contentContainerStyle={[styles.container, { backgroundColor: colors.background }]}>
+          <Text style={[styles.title, { color: colors.text }]}>Inserir Dados Ambientais</Text>
+          <TextInput
+            style={[styles.input, { color: colors.text, borderColor: colors.border }]}
+            placeholder="Umidade do solo (%)"
+            placeholderTextColor={colors.border}
+            value={umidade}
+            onChangeText={setUmidade}
+            keyboardType="numeric"
+          />
+          <TextInput
+            style={[styles.input, { color: colors.text, borderColor: colors.border }]}
+            placeholder="Inclinação do terreno (°)"
+            placeholderTextColor={colors.border}
+            value={inclinacao}
+            onChangeText={setInclinacao}
+            keyboardType="numeric"
+          />
+          <Button title="Salvar Dados" onPress={salvarDados} />
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 20,
+    flexGrow: 1,
     justifyContent: 'center',
+    padding: 24,
   },
   title: {
     fontSize: 20,
-    marginBottom: 20,
+    marginBottom: 24,
     textAlign: 'center',
+    fontWeight: 'bold',
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
-    marginBottom: 15,
-    borderRadius: 8,
     padding: 10,
+    marginBottom: 16,
+    borderRadius: 8,
   },
 });
