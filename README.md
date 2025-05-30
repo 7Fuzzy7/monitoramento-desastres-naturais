@@ -10,7 +10,7 @@ Aplicativo mobile desenvolvido com React Native + Expo para monitoramento de ris
 
 Escaneie com o aplicativo **Expo Go**:
 
-![QR Code do App](qrcode_monitoramento_expo.png)
+![QR Code do App](![alt text](image.png))
 
 ---
 
