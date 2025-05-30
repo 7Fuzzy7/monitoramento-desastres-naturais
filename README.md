@@ -1,50 +1,70 @@
-# Welcome to your Expo app 👋
+# 🌍 Monitoramento de Riscos de Deslizamentos
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Este aplicativo tem como objetivo **monitorar e registrar dados ambientais** relevantes para a prevenção de deslizamentos de terra, como:
+- Umidade do solo
+- Inclinação do terreno
+- Temperatura e pressão atmosférica
+- Condição climática atual obtida via OpenWeather
 
-## Get started
+---
 
-1. Install dependencies
+## 📱 Acesse o aplicativo publicado no Expo
 
-   ```bash
-   npm install
-   ```
+- 🔗 [Abrir app no Expo](https://expo.dev/accounts/pedromartins1/projects/monitoramento-deslizamentos)
 
-2. Start the app
+- 📷 Ou escaneie o QR code abaixo com o aplicativo **Expo Go**:
 
-   ```bash
-   npx expo start
-   ```
+![QR Code](qrcode_monitoramento_expo.png)
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 💡 Funcionalidades
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- Captura automática da localização do usuário
+- Integração com a API OpenWeather
+- Armazenamento local de leituras com `AsyncStorage`
+- Histórico de dados com exportação por e-mail
+- Modo escuro integrado com o sistema
+- Atualização automática da tela de histórico
 
-## Get a fresh project
+---
 
-When you're ready, run:
+## 🛠 Tecnologias utilizadas
 
+- [React Native](https://reactnative.dev/)
+- [Expo SDK 53](https://docs.expo.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [OpenWeather API](https://openweathermap.org/)
+- `expo-router`, `expo-sharing`, `expo-mail-composer`, `@react-native-async-storage/async-storage`
+
+---
+
+## ▶️ Como rodar localmente
+
+1. Clone este repositório:
 ```bash
-npm run reset-project
+git clone https://github.com/7Fuzzy7/monitoramento-desastres-naturais.git
+cd monitoramento-desastres-naturais
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Instale as dependências:
+```bash
+npm install
+```
 
-## Learn more
+3. Inicie o servidor Expo:
+```bash
+npx expo start
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+4. Use o aplicativo **Expo Go** para escanear o QR code gerado no terminal.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+## 👤 Desenvolvedor
 
-Join our community of developers creating universal apps.
+- Pedro Martins (pedromartins1)
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+
+> Projeto acadêmico para a disciplina de **Advanced Programming And Mobile Development** - FIAP 2025.
