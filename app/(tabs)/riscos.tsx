@@ -1,54 +1,51 @@
-import { useEffect, useState } from 'react';
+import { useState, useCallback } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useFocusEffect, useTheme } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useTheme } from '@react-navigation/native';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 export default function Riscos() {
   const { colors } = useTheme();
-  const [risco, setRisco] = useState<string | null>(null);
-  const [cor, setCor] = useState('#ccc');
-  const [detalhes, setDetalhes] = useState<any>(null);
+  const [risco, setRisco] = useState<'Alto' | 'Moderado' | 'Baixo' | null>(null);
 
-  useEffect(() => {
-    const calcularRisco = async () => {
-      const dados = await AsyncStorage.getItem('leituras');
-      if (dados) {
-        const leituras = JSON.parse(dados);
-        const ultima = leituras[leituras.length - 1];
-        const umidade = parseFloat(ultima.umidade);
-        const inclinacao = parseFloat(ultima.inclinacao);
-        const vento = parseFloat(ultima.clima?.wind?.speed || 0);
+  const calcularRisco = async () => {
+    const dados = await AsyncStorage.getItem('leituras');
+    if (dados) {
+      const leituras = JSON.parse(dados);
+      const ultima = leituras[leituras.length - 1];
 
-        setDetalhes(ultima.clima);
+      if (ultima) {
+        const u = parseFloat(ultima.umidade);
+        const i = parseFloat(ultima.inclinacao);
 
-        if (umidade > 80 && inclinacao > 30 && vento > 5) {
-          setRisco('ALTO');
-          setCor('#ff4d4d');
-        } else if (umidade > 60 && inclinacao > 20) {
-          setRisco('MODERADO');
-          setCor('#ffc107');
+        if (u > 80 || i > 25) {
+          setRisco('Alto');
+        } else if (u > 60 || i > 15) {
+          setRisco('Moderado');
         } else {
-          setRisco('BAIXO');
-          setCor('#4caf50');
+          setRisco('Baixo');
         }
-      } else {
-        setRisco('Sem dados');
-        setCor(colors.border);
       }
-    };
+    }
+  };
 
-    calcularRisco();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      calcularRisco();
+    }, [])
+  );
 
   return (
-    <View style={[styles.container, { backgroundColor: cor }]}>
-      <Text style={[styles.title, { color: '#fff' }]}>Nível de Risco</Text>
-      <Text style={[styles.risk, { color: '#fff' }]}>{risco}</Text>
-      {detalhes && (
-        <View style={styles.details}>
-          <Text style={[styles.info, { color: '#fff' }]}>💨 Vento: {detalhes.wind?.speed} m/s</Text>
-          <Text style={[styles.info, { color: '#fff' }]}>🌡 Temp: {detalhes.main?.temp} °C</Text>
-          <Text style={[styles.info, { color: '#fff' }]}>🌤 Condição: {detalhes.weather?.[0]?.description}</Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[styles.title, { color: colors.text }]}>Nível de Risco Atual</Text>
+      {risco && (
+        <View style={styles.box}>
+          <FontAwesome5
+            name={risco === 'Alto' ? 'exclamation-triangle' : risco === 'Moderado' ? 'exclamation-circle' : 'check-circle'}
+            size={64}
+            color={risco === 'Alto' ? 'red' : risco === 'Moderado' ? 'orange' : 'green'}
+          />
+          <Text style={[styles.riscoTexto, { color: colors.text }]}>Risco: {risco}</Text>
         </View>
       )}
     </View>
@@ -59,24 +56,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     padding: 24,
   },
   title: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 24,
+    textAlign: 'center',
   },
-  risk: {
-    fontSize: 40,
-    fontWeight: 'bold',
-  },
-  details: {
-    marginTop: 24,
+  box: {
     alignItems: 'center',
+    gap: 12,
   },
-  info: {
-    fontSize: 16,
-    marginBottom: 6,
+  riscoTexto: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });

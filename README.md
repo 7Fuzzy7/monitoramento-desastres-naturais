@@ -1,70 +1,72 @@
-# 🌍 Monitoramento de Riscos de Deslizamentos
+# 📱 Monitoramento de Riscos de Deslizamentos
 
-Este aplicativo tem como objetivo **monitorar e registrar dados ambientais** relevantes para a prevenção de deslizamentos de terra, como:
-- Umidade do solo
-- Inclinação do terreno
-- Temperatura e pressão atmosférica
-- Condição climática atual obtida via OpenWeather
+Aplicativo mobile desenvolvido com React Native + Expo para monitoramento de riscos de deslizamentos de terra, com foco em dados ambientais reais (como umidade, inclinação, vento e temperatura), ações de mitigação e histórico de alertas.
 
----
+## 🚀 Link do Projeto no Expo
 
-## 📱 Acesse o aplicativo publicado no Expo
+👉 [Abrir no Expo Go](https://expo.dev/accounts/pedromartins1/projects/monitoramento-deslizamentos)
 
-- 🔗 [Abrir app no Expo](https://expo.dev/accounts/pedromartins1/projects/monitoramento-deslizamentos)
+## 📷 QR Code para Instalação
 
-- 📷 Ou escaneie o QR code abaixo com o aplicativo **Expo Go**:
+Escaneie com o aplicativo **Expo Go**:
 
-![QR Code](qrcode_monitoramento_expo.png)
+![QR Code do App](qrcode_monitoramento_expo.png)
 
 ---
 
-## 💡 Funcionalidades
+## 🌍 Funcionalidades
 
-- Captura automática da localização do usuário
-- Integração com a API OpenWeather
-- Armazenamento local de leituras com `AsyncStorage`
-- Histórico de dados com exportação por e-mail
-- Modo escuro integrado com o sistema
-- Atualização automática da tela de histórico
-
----
-
-## 🛠 Tecnologias utilizadas
-
-- [React Native](https://reactnative.dev/)
-- [Expo SDK 53](https://docs.expo.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [OpenWeather API](https://openweathermap.org/)
-- `expo-router`, `expo-sharing`, `expo-mail-composer`, `@react-native-async-storage/async-storage`
+- 📡 Coleta automática de dados reais do tempo via API OpenWeather (baseado na localização)
+- 💧 Inserção de dados ambientais (umidade, inclinação, etc.)
+- 🔔 Cálculo de risco automático
+- 🚨 Ações de mitigação com base no risco atual
+- 📊 Histórico de medições com exportação e reset
+- 🌙 Suporte a modo escuro/claro
 
 ---
 
-## ▶️ Como rodar localmente
+## 🛠 Tecnologias
 
-1. Clone este repositório:
-```bash
-git clone https://github.com/7Fuzzy7/monitoramento-desastres-naturais.git
-cd monitoramento-desastres-naturais
-```
+- React Native + Expo SDK 53
+- AsyncStorage (persistência local)
+- OpenWeather API (dados climáticos)
+- Expo Location (geolocalização)
+- Expo Sharing e MailComposer (exportação)
+- React Navigation + Tabs
 
-2. Instale as dependências:
+---
+
+## 🧪 Como rodar localmente
+
+1. Instale as dependências:
 ```bash
 npm install
 ```
 
-3. Inicie o servidor Expo:
+2. Inicie o servidor local:
 ```bash
 npx expo start
 ```
 
-4. Use o aplicativo **Expo Go** para escanear o QR code gerado no terminal.
+3. Escaneie o QR code com o app **Expo Go** (iOS ou Android).
 
 ---
 
-## 👤 Desenvolvedor
+## 📤 Publicação com EAS Update
 
-- Pedro Martins (pedromartins1)
+Após alterações no código, publique com:
+```bash
+npx eas update --branch preview --message "Última atualização do app"
+```
 
+---
+
+## 🧠 Desenvolvido por
+**Murilo Pomin** – RM: 99683  
+**Luiz Augusto Melki** – RM: 552053  
+**Pedro Martins** – RM: 9866  
 ---
 
 > Projeto acadêmico para a disciplina de **Advanced Programming And Mobile Development** - FIAP 2025.
+
+> _“Prevenir desastres salva vidas – e agora temos tecnologia ao nosso favor.”_
