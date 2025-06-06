@@ -74,7 +74,7 @@ npx eas update --branch preview --message "Última atualização do app"
 ## 🧠 Desenvolvido por
 **Murilo Pomin** – RM: 99683  
 **Luiz Augusto Melki** – RM: 552053  
-**Pedro Martins** – RM: 9866  
+**Pedro Martins** – RM: 98663  
 ---
 
 > Projeto acadêmico para a disciplina de **Advanced Programming And Mobile Development** - FIAP 2025.
